@@ -1,0 +1,112 @@
+﻿<UserControl
+    x:Class="Charbacca.CharacterView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Charbacca"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:Charbacca.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="600"
+    d:DesignWidth="350">
+    <UserControl.Resources>
+        <converters:CharToHexConverter x:Key="CharToHexConverter"/>
+        <converters:CharToIntConverter x:Key="CharToIntConverter"/>
+        <converters:CharToSymbolConverter x:Key="CharToSymbolConverter"/>
+        <converters:CharToStringConverter x:Key="CharToStringConverter"/>
+        <!--<converters:CharToXamlConverter x:Key="CharToXamlConverter"/>-->
+        <!--<converters:CharToHtmlConverter x:Key="CharToHtmlConverter"/>-->
+        <converters:CharToMarkupConverter x:Key="CharToMarkupConverter"/>
+        <converters:CharToNameConverter x:Key="CharToNameConverter"/>
+
+        <converters:MulticastConverter x:Key="VisibleIfEqualsConverter">
+            <converters:MulticastConverter.Converters>
+                <converters:EqualityTestConverter/>
+                <converters:BooleanToVisibilityConverter/>
+            </converters:MulticastConverter.Converters>
+        </converters:MulticastConverter>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <!--<ColumnDefinition Width="Auto"/>-->
+        </Grid.ColumnDefinitions>
+
+        <ToggleButton Grid.Row="1" Grid.ColumnSpan="2" Padding="0" Margin="10,0,10,5" HorizontalAlignment="Center" Background="{ThemeResource ToggleButtonCheckedForegroundThemeBrush}">
+            <Border x:Name="characterIcon">
+                <TextBlock Margin="12,4,12,5" FontFamily="{Binding SelectedFont.Family}" Text="{Binding SelectedCharacter}" FontSize="200"/>
+            </Border>
+        </ToggleButton>
+
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Margin="0,0,0,20" HorizontalAlignment="Center">
+            <Button Content="Save as image..." Click="ButtonSave_Click" HorizontalAlignment="Center" FontSize="20" Margin="0,0,0,5"/>
+            <Grid Grid.Column="1" HorizontalAlignment="Stretch" Margin="3,0,3,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="textWidth" FontSize="22"/>
+                <TextBlock Grid.Column="1" Text="x" VerticalAlignment="Center" Margin="5,0,5,0" FontSize="22"/>
+                <TextBox Grid.Column="2" x:Name="textHeight" FontSize="22"/>
+            </Grid>
+        </StackPanel>
+
+        <!--<Grid Grid.ColumnSpan="2" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Font: " FontSize="22" VerticalAlignment="Center"/>
+            <ComboBox Grid.Column="1" Margin="10,0,0,5" ItemsSource="{Binding AllFonts}" FontSize="22" DisplayMemberPath="Name" SelectedItem="{Binding SelectedFont, Mode=TwoWay}"/>
+        </Grid>-->
+
+        <TextBlock Text="Hex: " Grid.Row="4" FontSize="22" VerticalAlignment="Center"/>
+        <TextBlock Text="U+" Grid.Row="4" FontSize="22" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,-5,0"/>
+        <TextBox x:Name="textHex" Grid.Row="4" Grid.Column="1" Margin="10,2,0,2" FontSize="22" Text="{Binding SelectedCharacter, Converter={StaticResource CharToHexConverter}, Mode=TwoWay}" VerticalAlignment="Center"/>
+        <!--<Button Content="&#xE16F;" FontFamily="Segoe UI Symbol" FontWeight="Light" FontSize="20" Grid.Row="4" Grid.Column="2" Margin="5,0,0,0" VerticalAlignment="Center" CommandParameter="{Binding Text, ElementName=textHex}" Click="ButtonCopy_Click"/>-->
+
+        <TextBlock Text="Decimal: " Grid.Row="5" FontSize="22" VerticalAlignment="Center"/>
+        <TextBox x:Name="textDecimal" Grid.Row="5" Grid.Column="1" Margin="10,2,0,2" FontSize="22" Text="{Binding SelectedCharacter, Converter={StaticResource CharToIntConverter}, Mode=TwoWay}" VerticalAlignment="Center"/>
+        <!--<Button Content="&#xE16F;" FontFamily="Segoe UI Symbol" FontWeight="Light" FontSize="20" Grid.Row="5" Grid.Column="2" Margin="5,0,0,0" VerticalAlignment="Center" CommandParameter="{Binding Text, ElementName=textDecimal}" Click="ButtonCopy_Click"/>-->
+
+        <TextBlock Text="Character: " Grid.Row="6" FontSize="22" VerticalAlignment="Center"/>
+        <TextBox x:Name="textCharacter" Grid.Row="6" Grid.Column="1" Margin="10,2,0,2" FontSize="22" Text="{Binding SelectedCharacter, Converter={StaticResource CharToStringConverter}, Mode=TwoWay}" VerticalAlignment="Center"/>
+        <!--<Button Content="&#xE16F;" FontFamily="Segoe UI Symbol" FontWeight="Light" FontSize="20" Grid.Row="6" Grid.Column="2" Margin="5,0,0,0" VerticalAlignment="Center" CommandParameter="{Binding Text, ElementName=textCharacter}" Click="ButtonCopy_Click"/>-->
+
+        <TextBlock Text="Name: " Grid.Row="7" FontSize="22" VerticalAlignment="Center"/>
+        <SearchBox x:Name="textName" Grid.Row="7" Grid.Column="1" Margin="10,2,0,2" FontSize="22" QueryText="{Binding SelectedCharacter, Converter={StaticResource CharToNameConverter}, Mode=TwoWay}" VerticalAlignment="Center" SearchHistoryEnabled="False" SuggestionsRequested="TextName_SuggestionsRequested"/>
+        <!--<Button Content="&#xE16F;" FontFamily="Segoe UI Symbol" FontWeight="Light" FontSize="20" Grid.Row="7" Grid.Column="2" Margin="5,0,0,0" VerticalAlignment="Center" CommandParameter="{Binding Text, ElementName=textName}" Click="ButtonCopy_Click"/>-->
+
+        <!--Only show Enum if using Segoe MDL2 Assets font. Not relevant for other fonts.-->
+        <TextBlock Text="Enum: " Grid.Row="8" FontSize="22" VerticalAlignment="Center" Visibility="{Binding SelectedFont.Name, Converter={StaticResource VisibleIfEqualsConverter}, ConverterParameter='Segoe MDL2 Assets'}"/>
+        <SearchBox x:Name="textEnum" Grid.Row="8" Grid.Column="1" Margin="10,2,0,2" FontSize="22" QueryText="{Binding SelectedCharacter, Converter={StaticResource CharToSymbolConverter}, Mode=TwoWay}" VerticalAlignment="Center" Visibility="{Binding SelectedFont.Name, Converter={StaticResource VisibleIfEqualsConverter}, ConverterParameter='Segoe MDL2 Assets'}" SearchHistoryEnabled="False" SuggestionsRequested="TextEnum_SuggestionsRequested"/>
+        <!--<Button Content="&#xE16F;" FontFamily="Segoe UI Symbol" FontWeight="Light" FontSize="20" Grid.Row="8" Grid.Column="2" Margin="5,0,0,0" VerticalAlignment="Center" CommandParameter="{Binding Text, ElementName=textEnum}" Click="ButtonCopy_Click"/>-->
+
+        <TextBlock Text="Markup: " Grid.Row="9" FontSize="22" VerticalAlignment="Center"/>
+        <TextBox x:Name="textMarkup" Grid.Row="9" Grid.Column="1" Margin="10,2,0,2" FontSize="22" Text="{Binding SelectedCharacter, Converter={StaticResource CharToMarkupConverter}, Mode=TwoWay}" VerticalAlignment="Center"/>
+        <!--<Button Content="&#xE16F;" FontFamily="Segoe UI Symbol" FontWeight="Light" FontSize="20" Grid.Row="9" Grid.Column="2" Margin="5,0,0,0" VerticalAlignment="Center" CommandParameter="{Binding Text, ElementName=textMarkup}" Click="ButtonCopy_Click"/>-->
+
+        <!--<TextBlock Text="XAML: " Grid.Row="10" FontSize="22" VerticalAlignment="Center"/>
+        <TextBox AcceptsReturn="True" IsReadOnly="True" Grid.Row="11" Grid.ColumnSpan="2" Margin="0,0,0,5" FontSize="22" Text="{Binding SelectedCharacter, Converter={StaticResource CharToXamlConverter}, ConverterParameter={Binding SelectedFont.Name}}" VerticalAlignment="Center"/>
+
+        <TextBlock Text="HTML: " Grid.Row="12" FontSize="22" VerticalAlignment="Center"/>
+        <TextBox AcceptsReturn="True" IsReadOnly="True" Grid.Row="13" Grid.ColumnSpan="2" Margin="0,0,0,5" FontSize="22" Text="{Binding SelectedCharacter, Converter={StaticResource CharToHtmlConverter}, ConverterParameter={Binding SelectedFont.Name}}" VerticalAlignment="Center"/>-->
+    </Grid>
+</UserControl>
